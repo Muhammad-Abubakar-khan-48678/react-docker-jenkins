@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "abubakarkhan04/react-docker-jenkins"
+        IMAGE_NAME = "yabubakarkhan04/react-docker-jenkins"
     }
 
     stages {
@@ -15,21 +15,19 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Build React App') {
             steps {
-                sh 'npm run build'
+                bat 'npm run build'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh """
-                  docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
-                """
+                bat "docker build -t %IMAGE_NAME%:%BUILD_NUMBER% ."
             }
         }
 
@@ -40,9 +38,9 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    sh """
-                      echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                      docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+                    bat """
+                        docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                        docker push %IMAGE_NAME%:%BUILD_NUMBER%
                     """
                 }
             }
