@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "yabubakarkhan04/react-docker-jenkins"
+        IMAGE_NAME = "abubakarkhan04/react-docker-jenkins"
     }
 
     stages {
